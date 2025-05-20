@@ -5,6 +5,7 @@ import { Button } from '@/components/uikit/button';
 
 import { Product } from '../api/model';
 import { FC } from 'react';
+import { roundToCustomHalf } from '@/utils';
 
 interface ProductItemProps {
 	product: Product;
@@ -12,6 +13,8 @@ interface ProductItemProps {
 
 const ProductItem: FC<ProductItemProps> = (props) => {
 	const { product } = props;
+
+	const productRatings = roundToCustomHalf(product.rating.rate);
 
 	return (
 		<div className='space-y-5 py-5'>
@@ -28,15 +31,15 @@ const ProductItem: FC<ProductItemProps> = (props) => {
 				/>
 			</div>
 
-			<p className='text-sm font-medium text-gray-600'>{product.description}</p>
+			<p className='text-sm font-medium text-gray-450'>{product.description}</p>
 
 			<div className='flex justify-between'>
 				<span className='text-black text-lg leading-[24px] font-medium'>
 					${product.price}
 				</span>
 				<div className='flex items-center gap-2'>
-					<Stars numberOfStars={Math.floor(product.rating.rate)} />
-					<span className='text-gray-600 text-sm font-medium'>
+					<Stars numberOfStars={productRatings} />
+					<span className='text-gray-450 text-sm font-medium'>
 						({product.rating.count})
 					</span>
 				</div>

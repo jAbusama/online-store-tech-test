@@ -49,7 +49,7 @@ export function Button(props: ButtonProps) {
 		btnVariants[variant],
 		{
 			'cursor-not-allowed bg-rose-400': disabled ?? loading,
-			fullwidth,
+			'w-full': fullwidth,
 			'm-auto': centered,
 			'rounded-[10px]': type === 'rectangle',
 			'rounded-full': type === 'circle',

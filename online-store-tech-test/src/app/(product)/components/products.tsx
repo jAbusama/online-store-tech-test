@@ -10,7 +10,7 @@ interface ProductsProps {
 const Products: FC<ProductsProps> = (props) => {
 	const { products } = props;
 	return (
-		<div className='flex flex-wrap gap-5'>
+		<div className='grid md:grid-cols-2 gap-8'>
 			{products.map((product) => (
 				<ProductItem key={product.id} product={product} />
 			))}

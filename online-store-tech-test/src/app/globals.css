@@ -11,7 +11,12 @@
 	--color-primary-100: #4f46e5;
 	--color-secondary-100: #16a34a;
 	--color-tertiary-100: #000000;
-	--color-gray-600: #707784;
+	--color-gray-450: oklch(0.5678 0.0217 262.94);
+	--color-gray-150: oklch(0.9552 0.0041 271.37);
+	--color-gray-750: oklch(0.3729 0.0306 259.73);
+
+	--z-modalOverlay: 50;
+	--z-modal: 60;
 }
 
 button.fullwidth {
