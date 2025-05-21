@@ -1,23 +1,46 @@
+import { FC, useState } from 'react';
+
 import { Button } from '@/components/uikit/button';
-import CheckoutForm from './checkout-form';
-import CartProducts from '@/app/(product)/components/cart-products';
+import PaymentDetails from './payment-details';
+import OrderConfirmation from '../order/order-confirmation';
+import BagProductList from '../bag/bag-product-list';
 
-const Checkout = () => {
+interface CheckoutProps {
+	dismissModal: () => void;
+}
+
+const Checkout: FC<CheckoutProps> = (props) => {
+	const { dismissModal } = props;
+	const [step, setStep] = useState(0);
+
+	const buttonLabel = () => {
+		switch (step) {
+			case 1:
+				return 'Confirm Order';
+			case 2:
+				return 'Close';
+			default:
+				return 'Checkout';
+		}
+	};
+
+	const onSubmit = () => {
+		if (step === 2) {
+			dismissModal();
+		}
+		setStep((prev) => prev + 1);
+	};
+
 	return (
-		<div className=''>
-			<h2 className='mb-4 text-lg font-medium leading-[22px]'>Checkout</h2>
+		<div className='w-full'>
+			{step === 0 && <BagProductList />}
+			{step === 1 && <PaymentDetails />}
+			{step === 2 && <OrderConfirmation />}
 
-			<hr className='border-t border-gray-200 mb-4' />
-			<div className='max-h-120 overflow-y-scroll divide-y divide-gray-200'>
-				<CheckoutForm />
-				<hr className='border-t border-gray-200 my-5' />
-				<CartProducts />
-			</div>
+			<hr className='border-t border-gray-200 mb-5' />
 
-			<hr className='border-t border-gray-200 my-5' />
-
-			<Button variant='secondary' fullwidth>
-				Confirm Order
+			<Button variant='secondary' fullwidth onClick={onSubmit}>
+				{buttonLabel()}
 			</Button>
 		</div>
 	);

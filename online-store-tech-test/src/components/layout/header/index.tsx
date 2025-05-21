@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { useState, type FC } from 'react';
 
 import { Modal } from '@/components/uikit/modal';
-// import Cart from '@/components/shared/cart';
 import Checkout from '@/components/shared/checkout';
+import Bag from '@/components/shared/bag';
 
 const Header: FC = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -12,6 +12,7 @@ const Header: FC = () => {
 	const onOpenCloseModal = () => {
 		setShowModal((prev) => !prev);
 	};
+
 	return (
 		<header className='flex items-center justify-between py-5 px-4 shadow-custom'>
 			<div>
@@ -23,15 +24,7 @@ const Header: FC = () => {
 				/>
 			</div>
 
-			<div className='flex gap-1 items-center' onClick={onOpenCloseModal}>
-				<Image
-					src='/icons/bag.svg'
-					alt='Tech Store Logo'
-					width={19}
-					height={25}
-				/>
-				<span className='text-sm font-medium text-gray-400'>x4</span>
-			</div>
+			<Bag onOpenCloseBag={onOpenCloseModal} />
 
 			{showModal && (
 				<Modal
@@ -40,8 +33,7 @@ const Header: FC = () => {
 					closeOnClickOutside
 					withCloseIcon
 				>
-					{/* <Cart /> */}
-					<Checkout />
+					<Checkout dismissModal={onOpenCloseModal} />
 				</Modal>
 			)}
 		</header>

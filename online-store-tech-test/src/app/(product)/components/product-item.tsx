@@ -6,15 +6,21 @@ import { Button } from '@/components/uikit/button';
 import { Product } from '../api/model';
 import { FC } from 'react';
 import { roundToCustomHalf } from '@/utils';
+import debounce from '@/utils/debounce';
 
 interface ProductItemProps {
 	product: Product;
+	onAddToCart: (product: Product) => void;
 }
 
 const ProductItem: FC<ProductItemProps> = (props) => {
-	const { product } = props;
+	const { product, onAddToCart } = props;
 
 	const productRatings = roundToCustomHalf(product.rating.rate);
+
+	const onClickAddToCart = debounce(() => {
+		onAddToCart(product);
+	}, 300);
 
 	return (
 		<div className='space-y-5 py-5'>
@@ -44,7 +50,9 @@ const ProductItem: FC<ProductItemProps> = (props) => {
 					</span>
 				</div>
 			</div>
-			<Button fullwidth>Add to cart</Button>
+			<Button fullwidth onClick={onClickAddToCart}>
+				Add to cart
+			</Button>
 		</div>
 	);
 };

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { BagProvider } from '@/context/cart-context';
 
 const interFont = Inter({
 	variable: '--font-inter',
@@ -29,9 +30,11 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`antialiased ${interFont.className}`}>
-				<Header />
-				{children}
-				<Footer />
+				<BagProvider>
+					<Header />
+					{children}
+					<Footer />
+				</BagProvider>
 			</body>
 		</html>
 	);

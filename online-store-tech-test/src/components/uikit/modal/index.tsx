@@ -70,7 +70,7 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 						<m.div
 							key='modal-window'
 							{...popUpOnMount}
-							className='relative modal z-modal max-w-[336px]'
+							className='relative modal z-modal w-full max-w-[336px]'
 							role='dialog'
 							aria-modal='true'
 							ref={ref}
@@ -100,7 +100,7 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 										</div>
 									}
 								>
-									<div className=' max-h-[80vh] overflow-y-auto overflow-x-hidden px-2.5 py-5'>
+									<div className='max-h-[80vh] overflow-y-auto overflow-x-hidden px-2.5 py-5'>
 										{children}
 									</div>
 								</Suspense>
