@@ -13,9 +13,12 @@ export type Product = {
 
 export enum BagActionType {
 	UPDATE_IS_LOADING = 'UPDATE_IS_LOADING',
-	ADD_TO_CART = 'ADD_TO_CART',
-	DELETE_TO_CART = 'DELETE_TO_CART',
+	ADD_TO_BAG = 'ADD_TO_BAG',
+	REMOVE_FROM_BAG = 'REMOVE_FROM_BAG',
+	UPDATE_ITEM_QUANTITY = 'UPDATE_ITEM_QUANTITY',
 }
+
+export type UpdateQuantityPayload = { itemID: number; quantity: number };
 
 // update loading state
 export interface BagUpdateLoading {
@@ -24,18 +27,28 @@ export interface BagUpdateLoading {
 }
 
 // add product to cart state
-export interface BagAddProduct {
-	type: BagActionType.ADD_TO_CART;
+export interface AddToBag {
+	type: BagActionType.ADD_TO_BAG;
 	payload: Product;
 }
 
 // delete product from cart state
-export interface BagDeleteProduct {
-	type: BagActionType.DELETE_TO_CART;
+export interface RemoveFromBag {
+	type: BagActionType.REMOVE_FROM_BAG;
 	payload: number;
 }
 
-export type BagActions = BagUpdateLoading | BagAddProduct | BagDeleteProduct;
+// update item quantity from bag
+export interface UpdateItemQuantity {
+	type: BagActionType.UPDATE_ITEM_QUANTITY;
+	payload: UpdateQuantityPayload;
+}
+
+export type BagActions =
+	| BagUpdateLoading
+	| AddToBag
+	| RemoveFromBag
+	| UpdateItemQuantity;
 
 export type BagItemType = Product & { quantity: number };
 

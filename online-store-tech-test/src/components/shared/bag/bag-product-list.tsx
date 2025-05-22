@@ -1,19 +1,34 @@
 'use client';
-import BagItems from '@/components/shared/bag/bag-items';
-import { useBag } from '@/context/cart-context';
+import { FunctionComponent } from 'react';
 
-const BagProductList = () => {
+import {
+	BagActionType,
+	UpdateQuantityPayload,
+} from '@/app/(product)/api/model';
+import BagItems from '@/components/shared/bag/bag-items';
+import { useBag, useBagDispatch } from '@/context/bag-context';
+import debounce from '@/utils/debounce';
+
+const BagProductList: FunctionComponent = () => {
 	const currentBag = useBag();
+	const dispatch = useBagDispatch();
+
+	const onDeleteItem = (id: number) => {
+		dispatch({ type: BagActionType.REMOVE_FROM_BAG, payload: id });
+	};
+
+	const onChangeItemQuantity = debounce((payload: UpdateQuantityPayload) => {
+		dispatch({ type: BagActionType.UPDATE_ITEM_QUANTITY, payload });
+	}, 300);
 
 	return (
-		<div className=''>
-			<h2 className='mb-4 text-lg font-medium leading-[22px]'>Cart</h2>
-
-			<hr className='border-t border-gray-200 mb-4' />
-			<div className='max-h-120 overflow-y-scroll'>
-				<BagItems itemsInBag={currentBag.items} />
-			</div>
-		</div>
+		<>
+			<BagItems
+				itemsInBag={currentBag.items}
+				deleteItem={onDeleteItem}
+				changeItemQuantity={onChangeItemQuantity}
+			/>
+		</>
 	);
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useBag } from '@/context/cart-context';
+import { useBagSummary } from '@/hooks/use-bag-summary';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -11,9 +11,7 @@ interface BagProps {
 const Bag: FC<BagProps> = (props) => {
 	const { onOpenCloseBag } = props;
 
-	const itemsInBag = useBag();
-
-	const totalNumberOfProductInCart = itemsInBag.items.length;
+	const { totalItemInBag } = useBagSummary();
 	return (
 		<div className='flex gap-1 items-center' onClick={onOpenCloseBag}>
 			<Image
@@ -22,9 +20,9 @@ const Bag: FC<BagProps> = (props) => {
 				width={19}
 				height={25}
 			/>
-			{totalNumberOfProductInCart !== 0 && (
+			{totalItemInBag !== 0 && (
 				<span className='text-sm font-medium text-gray-400'>
-					x{totalNumberOfProductInCart}
+					x{totalItemInBag}
 				</span>
 			)}
 		</div>

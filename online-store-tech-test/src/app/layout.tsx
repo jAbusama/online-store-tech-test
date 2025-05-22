@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { BagProvider } from '@/context/cart-context';
+import { BagProvider } from '@/context/bag-context';
 
 const interFont = Inter({
 	variable: '--font-inter',

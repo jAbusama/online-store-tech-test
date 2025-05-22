@@ -4,7 +4,7 @@
  * @param delay The debounce delay in milliseconds.
  * @returns A debounced function.
  */
-function debounce<T extends (...args: unknown[]) => void>(
+function debounce<T extends (...args: never[]) => void>(
 	fn: T,
 	delay: number
 ): (...args: Parameters<T>) => void {

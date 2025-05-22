@@ -100,7 +100,7 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 										</div>
 									}
 								>
-									<div className='max-h-[80vh] overflow-y-auto overflow-x-hidden px-2.5 py-5'>
+									<div className='max-h-[90vh] overflow-y-auto overflow-x-hidden px-2.5 py-5'>
 										{children}
 									</div>
 								</Suspense>
