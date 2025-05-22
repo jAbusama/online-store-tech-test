@@ -1,5 +1,4 @@
 import { mergedCx } from '@/helpers/cx-merge';
-import { CircleAlert } from 'lucide-react';
 import { FC, InputHTMLAttributes } from 'react';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -29,6 +28,13 @@ const Input: FC<InputProps> = (props) => {
 		...rest
 	} = props;
 
+	const clx = mergedCx(
+		'col-start-1 row-start-1 block w-full rounded-[10px] bg-white py-1.5 px-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 disabled:bg-gray-300/20 disabled:cursor-not-allowed',
+		{
+			'outline-red-500 focus:outline-red-500': Boolean(error),
+		}
+	);
+
 	return (
 		<div className={mergedCx(wrapperClass)}>
 			{label && (
@@ -45,12 +51,8 @@ const Input: FC<InputProps> = (props) => {
 					type={type}
 					value={value}
 					placeholder={placeholder}
-					// aria-invalid='true'
-					// aria-describedby='email-error'
-					className='col-start-1 row-start-1 block w-full rounded-[10px] bg-white py-1.5 px-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600'
-					// className='col-start-1 row-start-1 block w-full rounded-md bg-white py-1.5 pl-3 pr-10 text-base text-red-900 outline outline-1 -outline-offset-1 outline-red-300 placeholder:text-red-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-600 sm:pr-9 sm:text-sm/6'
+					className={clx}
 					disabled={disabled}
-					// disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 disabled:outline-gray-200
 				/>
 			</div>
 			{helpText && !error && (
@@ -61,7 +63,6 @@ const Input: FC<InputProps> = (props) => {
 					id={`${name}-input-error`}
 					className='flex items-center gap-1 mt-1 text-xs text-red-600'
 				>
-					<CircleAlert className='size-4' />
 					<p>{error}</p>
 				</div>
 			)}
