@@ -6,6 +6,7 @@ import BagProductList from '../bag/bag-product-list';
 import OrderSummary from '../order/order-summary';
 import { FormProvider, useForm } from 'react-hook-form';
 import CheckoutForm from './checkout-form';
+import { CheckoutFormValues } from '@/types/checkout-form';
 
 interface CheckoutProps {
 	dismissModal: () => void;
@@ -13,7 +14,7 @@ interface CheckoutProps {
 
 const Checkout: FC<CheckoutProps> = (props) => {
 	const { dismissModal } = props;
-	const methods = useForm({ mode: 'onChange' });
+	const methods = useForm<CheckoutFormValues>({ mode: 'onChange' });
 	const [step, setStep] = useState(0);
 
 	const { buttonLabel, heading } = (() => {
@@ -27,8 +28,9 @@ const Checkout: FC<CheckoutProps> = (props) => {
 		}
 	})();
 
-	const onSubmitPayment = (data) => {
+	const onSubmitPayment = (data: CheckoutFormValues) => {
 		setStep((prev) => prev + 1);
+		console.log('paymentDetails', data);
 	};
 
 	const onSubmit = () => {

@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+// import { Inter } from 'next/font/google';
 import './globals.css';
+
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { BagProvider } from '@/context/bag-context';
+import { NotificationProvider } from '@/context/notification-context';
+import Notifications from '@/components/shared/notification';
 
-const interFont = Inter({
-	variable: '--font-inter',
-	subsets: ['latin'],
-});
+// const interFont = Inter({
+// 	variable: '--font-inter',
+// 	subsets: ['latin'],
+// });
 
 // const geistMono = Geist_Mono({
 //   variable: "--font-geist-mono",
@@ -29,12 +32,15 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`antialiased ${interFont.className}`}>
-				<BagProvider>
-					<Header />
-					{children}
-					<Footer />
-				</BagProvider>
+			<body className={`antialiased`}>
+				<NotificationProvider>
+					<BagProvider>
+						<Notifications />
+						<Header />
+						{children}
+						<Footer />
+					</BagProvider>
+				</NotificationProvider>
 			</body>
 		</html>
 	);

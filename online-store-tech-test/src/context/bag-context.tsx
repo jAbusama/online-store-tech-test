@@ -1,4 +1,6 @@
 'use client';
+import { createContext, Dispatch, useContext, useReducer } from 'react';
+
 import {
 	BagActions,
 	BagActionType,
@@ -8,7 +10,6 @@ import {
 	BagState,
 	BagUpdateLoading,
 } from '@/app/(product)/api/model';
-import { createContext, Dispatch, useContext, useReducer } from 'react';
 
 const BagContext = createContext({} as BagState);
 
@@ -58,7 +59,6 @@ export const cartReducer = <
 			const typeAction = action as UpdateItemQuantity;
 
 			const updatedItem = typeAction.payload;
-			console.log('updatedItem', updatedItem);
 			if (updatedItem.quantity <= 0) {
 				throw Error('Quantity should not be less that 1' + action.type);
 			}

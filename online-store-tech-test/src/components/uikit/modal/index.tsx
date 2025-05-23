@@ -1,23 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { FunctionComponent, PropsWithChildren, Suspense, useRef } from 'react';
 import * as Portal from '@radix-ui/react-portal';
-import { AnimatePresence, m } from 'framer-motion';
-import {
-	FunctionComponent,
-	PropsWithChildren,
-	Suspense,
-	useEffect,
-	useRef,
-} from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
-
-// import { Loading02, X } from '@/components/uikit/icon/icons/general';
 import { CircleX, LoaderCircle } from 'lucide-react';
 import { mergedCx } from '@/helpers/cx-merge';
-import { popUpOnMount, smoothShow } from '@/utils/animation';
-// import { mergedCx } from '@/shared/styles';
-// import { useActions, useAppSelector } from '@/store/hooks';
-
-// import { RenderModals } from '../utils/render-modals';
 
 type ModalProps = {
 	isOpen: boolean;
@@ -29,24 +16,56 @@ type ModalProps = {
 export const Modal: FunctionComponent<ModalProps> = (props) => {
 	const { children, isOpen, closeOnClickOutside, withCloseIcon, dismissModal } =
 		props;
-	// const { modalKey, closeOnClickOutside, withCloseIcon, icon, modalProps } =
-	// 	useAppSelector((state) => state.modal.modal);
 
-	// const { dismissModal } = useActions();
-	const ref = useRef(null);
+	const ref = useRef({} as HTMLDivElement);
 
-	useEffect(() => {
-		if (window?.document) {
-			document.body.style.overflow = 'hidden';
-		}
+	const overlayVariants = {
+		show: {
+			opacity: 1,
+			backdropFilter: 'blur(4px)',
+			transition: {
+				duration: 0.2,
+				ease: 'easeOut',
+				when: 'beforeChildren',
+			},
+		},
+		hide: {
+			opacity: 0,
+			backdropFilter: 'blur(0px)',
+			transition: {
+				duration: 0.15,
+				ease: 'easeIn',
+				when: 'afterChildren',
+			},
+		},
+	};
 
-		return () => {
-			document.body.style.overflow = 'unset';
-		};
-	});
+	const modalVariants = {
+		show: {
+			opacity: 1,
+			scale: 1,
+			y: 0,
+			transition: {
+				type: 'spring',
+				damping: 25,
+				stiffness: 400,
+				mass: 0.5,
+				delay: 0.1,
+			},
+		},
+		hide: {
+			opacity: 0,
+			scale: 0.95,
+			y: 20,
+			transition: {
+				type: 'spring',
+				damping: 30,
+				stiffness: 400,
+			},
+		},
+	};
 
 	const handleClickOutside = () => {
-		// TO DO add option onClose functionality
 		if (closeOnClickOutside) dismissModal();
 	};
 
@@ -60,33 +79,39 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 
 	return (
 		<Portal.Root>
-			<AnimatePresence initial={false}>
-				{isOpen ? (
-					<m.div
+			<AnimatePresence>
+				{isOpen && (
+					<motion.div
 						key='modal-overlay'
-						{...smoothShow}
-						className='fixed bottom-0 left-0 right-0 top-0 z-modalOverlay flex items-center justify-center bg-[#D9D9D9BF]/75'
+						initial='hide'
+						animate='show'
+						exit='hide'
+						variants={overlayVariants}
+						className='fixed inset-0 z-modalOverlay flex items-center justify-center bg-[#D9D9D9BF]/75 supports-backdrop-blur:bg-[#D9D9D9]/75'
 					>
-						<m.div
+						<motion.div
 							key='modal-window'
-							{...popUpOnMount}
-							className='relative modal z-modal w-full max-w-[336px]'
+							initial='hide'
+							animate='show'
+							exit='hide'
+							variants={modalVariants}
+							className='relative modal z-modal w-full max-w-[336px] mx-4'
 							role='dialog'
 							aria-modal='true'
 							ref={ref}
 						>
-							<div className='bg-white relative rounded-[10px]'>
+							<div className='bg-white relative rounded-[10px] shadow-xl shadow-black/20'>
 								{withCloseIcon && (
 									<button
 										type='button'
-										className='absolute top-5 right-4'
+										className='absolute top-5 right-4 z-10 group'
 										onClick={() => dismissModal()}
+										aria-label='Close modal'
 									>
 										<CircleX
-											aria-label='close'
-											aria-labelledby='close button'
 											className={mergedCx(
-												'text-gray-450 transition-colors cursor-pointer'
+												'text-gray-450 group-hover:text-gray-600 transition-colors cursor-pointer',
+												'transform transition-transform group-hover:scale-110'
 											)}
 											size='18'
 										/>
@@ -105,9 +130,9 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 									</div>
 								</Suspense>
 							</div>
-						</m.div>
-					</m.div>
-				) : null}
+						</motion.div>
+					</motion.div>
+				)}
 			</AnimatePresence>
 		</Portal.Root>
 	);

@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
-import { Stars } from '@/components/shared/Stars';
 import { Button } from '@/components/uikit/button';
 
 import { Product } from '../api/model';
 import { FC } from 'react';
 import { roundToCustomHalf } from '@/utils';
 import debounce from '@/utils/debounce';
+import { Stars } from '@/components/shared/stars';
 
 interface ProductItemProps {
 	product: Product;
