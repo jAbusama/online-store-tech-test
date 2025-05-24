@@ -1,12 +1,15 @@
-import { FC, useState } from 'react';
+'use client';
 
-import { Button } from '@/components/uikit/button';
+import { FC, useCallback, useState } from 'react';
+
+import { Button, ButtonVariants } from '@/components/uikit/button';
 import OrderConfirmation from '../order/order-confirmation';
 import BagProductList from '../bag/bag-product-list';
 import OrderSummary from '../order/order-summary';
 import { FormProvider, useForm } from 'react-hook-form';
 import CheckoutForm from './checkout-form';
 import { CheckoutFormValues } from '@/types/checkout-form';
+import { useBagSummary } from '@/hooks/use-bag-summary';
 
 interface CheckoutProps {
 	dismissModal: () => void;
@@ -15,16 +18,29 @@ interface CheckoutProps {
 const Checkout: FC<CheckoutProps> = (props) => {
 	const { dismissModal } = props;
 	const methods = useForm<CheckoutFormValues>({ mode: 'onChange' });
+	const { totalItemsInBag } = useBagSummary();
 	const [step, setStep] = useState(0);
 
-	const { buttonLabel, heading } = (() => {
+	const { btnLabel, heading, btnVariant } = (() => {
 		switch (step) {
 			case 1:
-				return { heading: 'Checkout', buttonLabel: 'Confirm Order' };
+				return {
+					heading: 'Checkout',
+					btnLabel: 'Confirm Order',
+					btnVariant: 'tertiary',
+				};
 			case 2:
-				return { heading: 'Order Confirmation', buttonLabel: 'Close' };
+				return {
+					heading: 'Order Confirmation',
+					btnLabel: 'Close',
+					btnVariant: 'tertiary',
+				};
 			default:
-				return { heading: 'Cart', buttonLabel: 'Checkout' };
+				return {
+					heading: 'Cart',
+					btnLabel: 'Checkout',
+					btnVariant: 'secondary',
+				};
 		}
 	})();
 
@@ -36,14 +52,35 @@ const Checkout: FC<CheckoutProps> = (props) => {
 	const onSubmit = () => {
 		if (step === 2) {
 			dismissModal();
+			return;
 		}
+
 		if (step === 1) {
 			methods.handleSubmit(onSubmitPayment)();
+			return;
 		}
-		if (step !== 1) {
-			setStep((prev) => prev + 1);
-		}
+
+		setStep((prev) => prev + 1);
 	};
+
+	const renderStepContent = useCallback(() => {
+		switch (step) {
+			case 0:
+				return <BagProductList />;
+			case 1:
+				return (
+					<>
+						<CheckoutForm />
+						<hr className='border-t border-gray-200 my-5' />
+						<BagProductList />
+					</>
+				);
+			case 2:
+				return <OrderConfirmation />;
+			default:
+				return null;
+		}
+	}, [step]);
 
 	return (
 		<FormProvider {...methods}>
@@ -52,20 +89,17 @@ const Checkout: FC<CheckoutProps> = (props) => {
 				<hr className='border-t border-gray-200 mb-5' />
 
 				<div className='max-h-120 overflow-y-scroll '>
-					{step === 0 && <BagProductList />}
-					{step === 1 && (
-						<>
-							<CheckoutForm />
-							<hr className='border-t border-gray-200 my-5' />
-							<BagProductList />
-						</>
-					)}
-					{step === 2 && <OrderConfirmation />}
+					{renderStepContent()}
 				</div>
 				<hr className='border-t border-gray-200 mb-5 mt-2' />
 				{step === 1 && <OrderSummary />}
-				<Button variant='secondary' fullwidth onClick={onSubmit}>
-					{buttonLabel}
+				<Button
+					variant={btnVariant as ButtonVariants}
+					fullwidth
+					onClick={onSubmit}
+					disabled={totalItemsInBag <= 0}
+				>
+					{btnLabel}
 				</Button>
 			</div>
 		</FormProvider>

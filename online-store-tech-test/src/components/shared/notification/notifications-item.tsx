@@ -1,4 +1,5 @@
 'use client';
+
 import { useTimeoutFn, useUpdateEffect } from '@reactuses/core';
 import { motion, useIsPresent, type Variants } from 'framer-motion';
 import { FunctionComponent } from 'react';
@@ -17,7 +18,6 @@ interface NotificationsItemProps {
 	className?: string;
 }
 
-// TODO: check when design is ready
 const NotificationsItem: FunctionComponent<NotificationsItemProps> = (
 	props
 ) => {

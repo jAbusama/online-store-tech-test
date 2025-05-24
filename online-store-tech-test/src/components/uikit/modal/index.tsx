@@ -13,7 +13,7 @@ type ModalProps = {
 	dismissModal: () => void;
 } & PropsWithChildren;
 
-export const Modal: FunctionComponent<ModalProps> = (props) => {
+const Modal: FunctionComponent<ModalProps> = (props) => {
 	const { children, isOpen, closeOnClickOutside, withCloseIcon, dismissModal } =
 		props;
 
@@ -137,3 +137,5 @@ export const Modal: FunctionComponent<ModalProps> = (props) => {
 		</Portal.Root>
 	);
 };
+
+export default Modal;

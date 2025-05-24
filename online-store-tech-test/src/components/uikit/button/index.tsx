@@ -11,8 +11,10 @@ type ButtonProps = {
 	loading?: boolean;
 	fullwidth?: boolean;
 	type?: 'circle' | 'rectangle';
-	variant?: keyof typeof btnVariants;
+	variant?: ButtonVariants;
 };
+
+export type ButtonVariants = keyof typeof btnVariants;
 
 const btnSizes = {
 	sm: 'p-2 text-xs',
@@ -48,7 +50,7 @@ export function Button(props: ButtonProps) {
 		btnSizes[size],
 		btnVariants[variant],
 		{
-			'cursor-not-allowed bg-rose-400': disabled ?? loading,
+			'cursor-not-allowed bg-gray-300': disabled ?? loading,
 			'w-full': fullwidth,
 			'm-auto': centered,
 			'rounded-[10px]': type === 'rectangle',

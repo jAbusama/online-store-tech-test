@@ -14,7 +14,9 @@ const BagItems: FC<CartProductsType> = (props) => {
 	return (
 		<div className='divide-y divide-gray-200'>
 			{itemsInBag.length === 0 && (
-				<p className='text-center font-lg font-bold'>No Items in your Bag</p>
+				<p className='text-center text-gray-500 font-lg font-medium'>
+					No Items in your Bag
+				</p>
 			)}
 			{itemsInBag.length !== 0 &&
 				itemsInBag.map((item) => (

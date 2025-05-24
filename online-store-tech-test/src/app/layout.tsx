@@ -32,12 +32,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`antialiased`}>
+			<body className={`antialiased pb-10`}>
 				<NotificationProvider>
 					<BagProvider>
 						<Notifications />
 						<Header />
-						{children}
+						<main className='pt-16'>{children}</main>
 						<Footer />
 					</BagProvider>
 				</NotificationProvider>

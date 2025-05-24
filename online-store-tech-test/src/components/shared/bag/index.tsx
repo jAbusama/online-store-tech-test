@@ -11,7 +11,7 @@ interface BagProps {
 const Bag: FC<BagProps> = (props) => {
 	const { onOpenCloseBag } = props;
 
-	const { totalItemInBag } = useBagSummary();
+	const { totalItemsInBag } = useBagSummary();
 	return (
 		<div className='flex gap-1 items-center' onClick={onOpenCloseBag}>
 			<Image
@@ -20,9 +20,9 @@ const Bag: FC<BagProps> = (props) => {
 				width={19}
 				height={25}
 			/>
-			{totalItemInBag !== 0 && (
+			{totalItemsInBag !== 0 && (
 				<span className='text-sm font-medium text-gray-400'>
-					x{totalItemInBag}
+					x{totalItemsInBag}
 				</span>
 			)}
 		</div>

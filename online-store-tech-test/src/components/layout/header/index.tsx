@@ -1,17 +1,23 @@
 'use client';
-import Image from 'next/image';
 import { type FC } from 'react';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+import { useDisclosure } from '@reactuses/core';
 
-import { Modal } from '@/components/uikit/modal';
 import Checkout from '@/components/shared/checkout';
 import Bag from '@/components/shared/bag';
-import { useDisclosure } from '@reactuses/core';
+import { Skeleton } from '@/components/uikit/skeleton';
+
+const Modal = dynamic(async () => await import('@/components/uikit/modal'), {
+	ssr: false,
+	loading: () => <Skeleton className='w-80 h-60' />,
+});
 
 const Header: FC = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
-		<header className='flex items-center justify-between py-5 px-4 shadow-custom'>
+		<header className='fixed inset-x-0 bg-white flex items-center justify-between py-5 px-4 shadow-custom'>
 			<div>
 				<Image
 					src='/icons/site-logo.svg'

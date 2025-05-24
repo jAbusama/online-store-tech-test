@@ -1,3 +1,5 @@
+'use client';
+
 import { FunctionComponent } from 'react';
 
 import { notificationIcons } from './icons';
@@ -7,12 +9,12 @@ import { CircleX } from 'lucide-react';
 import Image from 'next/image';
 
 const variantClass: Record<NotificationTypes, string> = {
-	success: 'bg-white text-gray-800',
-	error: 'bg-[#F15E60] text-white',
-	primary: 'bg-[#3B63AF] text-black',
-	warning: 'bg-[#F9D76F] text-white',
-	gray: 'bg-[#3B63AF] text-black',
-	info: 'bg-[#3B63AF] text-black',
+	success: 'text-gray-800',
+	error: 'text-gray-800',
+	primary: 'text-gray-800',
+	warning: 'text-gray-800',
+	gray: 'text-gray-800',
+	info: 'text-gray-800',
 };
 
 export const Notification: FunctionComponent<NotificationArgs> = (props) => {
@@ -26,7 +28,7 @@ export const Notification: FunctionComponent<NotificationArgs> = (props) => {
 	} = props;
 
 	const cxClassName = mergedCx(
-		'relative overflow-hidden pointer-events-auto flex w-max max-w-[340px] md:max-w-[500px] items-start rounded-xl p-2 shadow-md z-10',
+		'relative overflow-hidden pointer-events-auto bg-white flex w-max max-w-[340px] md:max-w-[500px] items-start rounded-xl p-2 shadow-md z-10',
 		variantClass[type],
 		className
 	);

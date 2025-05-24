@@ -17,7 +17,6 @@ const positions: Record<NotificationPositionsType, string> = {
 	'bottom-left': 'bottom-0 left-0 items-start',
 };
 
-// TODO: check when design is ready
 const NotificationsList: FunctionComponent<NotificationsListProps> = (
 	props
 ) => {
